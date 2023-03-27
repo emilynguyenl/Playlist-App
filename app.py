@@ -57,8 +57,9 @@ def options():
     4. Update song by name
     5. List all attributes of a song by song name
     6. Remove a song by name
-    7. Exit''')
-    return helper.get_choice([1,2,3,4,5,6,7])
+    7. Remove records with null values
+    8. Exit''')
+    return helper.get_choice([1,2,3,4,5,6,7,8])
 
 #search the songs table by artist
 def search_by_artist():
@@ -201,7 +202,39 @@ def update_song():
         2. False''')
         explict_value = helper.get_choice([1,2])
         db_ops.update_explicit_attribute(explict_value, songID)
-
+"""
+# NEW
+# function to update records in bulk
+def update_bulk():
+    print('''What would you like to bulk update by?
+    1. Album
+    2. Artist
+    3. Genre''')
+    choice = helper.get_choice([1,2,3])
+    
+    if choice == 1:
+        album = input("Which album would you like to bulk update?")
+    if choice == 2:
+        artist = input("Which artist would you like to bulk update?")
+    if choice == 3:
+        genre = input("Which genre would you like to bulk update?")
+    
+    # ask user which attribute they would like to modify
+    print('''Which information would you like to modify?
+    1. Song name
+    2. Album name
+    3. Artist name
+    4. Release date
+    5. Explicit attribute''')
+    modify = helper.get_choice([1,2,3,4,5])
+    
+    if choice == 1:
+        # bulk update by album
+        if modify == 1:
+            # update song
+            new_song_name = input("Enter the new song name: ")
+            db_ops.bulk_update_song(album, 'Album', new_song_name)
+"""
 # NEW
 # function to help delete song from table
 def delete_song():
@@ -210,6 +243,25 @@ def delete_song():
     songID = db_ops.find_songID(song)
     db_ops.remove_song(songID)
     
+# NEW
+# function to help delete any records with NULL values for any attributes
+def delete_null():
+    query = '''
+    DELETE FROM songs
+    WHERE Name IS NULL
+    OR Artist IS NULL
+    OR Album IS NULL
+    OR releaseDate IS NULL
+    OR Genre IS NULL
+    OR Explicit IS NULL
+    OR Duration IS NULL
+    OR Energy IS NULL
+    OR Danceability IS NULL
+    OR Acousticness IS NULL
+    OR Liveness IS NULL
+    OR Loudness IS NULL;
+    '''
+    db_ops.delete_null(query)
 
 #main program
 startScreen()
@@ -228,6 +280,11 @@ while True:
     if user_choice == 3:
         search_by_feature()
     if user_choice == 4:
+        """print("Would you like to bulk update records? Yes (1) or No (2)")
+        bulk = helper.get_choice([1,2])
+        if bulk == 1:
+            update_bulk()
+        if bulk == 2:"""
         update_song()
     if user_choice == 5:
         song = input("Enter the song name: ")
@@ -235,6 +292,8 @@ while True:
     if user_choice == 6:
         delete_song()
     if user_choice == 7:
+        delete_null()
+    if user_choice == 8:
         print("Goodbye!")
         break
 

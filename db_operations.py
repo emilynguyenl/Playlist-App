@@ -46,7 +46,7 @@ class db_operations():
         self.cursor.execute(query)
         results = self.cursor.fetchall()
         results = [i[0] for i in results]
-        results.remove(None)
+        #results.remove(None)
         return results
     
     # NEW
@@ -143,6 +143,12 @@ class db_operations():
         results = self.cursor.fetchone()
         return results[0]
     
+    # NEW
+    # function to remove all records that have a NULL attribute
+    def delete_null(self, query):
+        self.cursor.execute(query)
+        print("Deletion of null records completed!")
+
     # SELECT with named placeholders
     def name_placeholder_query(self,query,dictionary):
         self.cursor.execute(query,dictionary)
