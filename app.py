@@ -26,6 +26,27 @@ def pre_process():
         placeholders = ("?,"*attribute_count)[:-1]
         query = "INSERT INTO songs VALUES("+placeholders+")"
         db_ops.bulk_insert(query, data)
+        
+# NEW
+# ask user if they want to load new songs into the database
+def user_pre_process():
+    print('''Would you like to load new songs into the database?
+    1. Yes
+    2. No''')
+    return helper.get_choice([1,2])
+        
+# NEW
+# fills table from user's .csv file
+def fill_table():
+    # ask user for location of the file
+    file_path = input('Enter the location of the file containing the new songs: ')
+    songs = helper.data_cleaner(file_path)
+    
+    # fill table with songs from file_path
+    attribute_count = len(songs[0])
+    placeholders = ("?,"*attribute_count)[:-1]
+    query = "INSERT INTO songs VALUES("+placeholders+")"
+    db_ops.bulk_insert(query, songs)
 
 #show user menu options
 def options():
@@ -33,8 +54,11 @@ def options():
     1. Find songs by artist
     2. Find songs by genre
     3. Find songs by feature
-    4. Exit''')
-    return helper.get_choice([1,2,3,4])
+    4. Update song by name
+    5. List all attributes of a song by song name
+    6. Remove a song by name
+    7. Exit''')
+    return helper.get_choice([1,2,3,4,5,6,7])
 
 #search the songs table by artist
 def search_by_artist():
@@ -135,10 +159,64 @@ def search_by_feature():
     results = db_ops.name_placeholder_query(query, dictionary)
     helper.pretty_print(results)
 
+# NEW
+# updates information for a song
+def update_song():
+    song = input("Enter song name you would like to update: ")
+    # print all attributes of that song
+    db_ops.song_attributes(song)
+    
+    # get songID from song name
+    songID = db_ops.find_songID(song)
+    
+    # ask user which attribute they would like to modify
+    print('''Which information would you like to modify?
+    1. Song name
+    2. Album name
+    3. Artist name
+    4. Release date
+    5. Explicit attribute''')
+    choice = helper.get_choice([1,2,3,4,5])
+
+    if choice == 1:
+        # update song name
+        new_song_name = input("Enter the new song name: ")
+        db_ops.update_song_name(new_song_name, songID)
+    if choice == 2:
+        # update album name
+        new_album_name = input("Enter the new album name: ")
+        db_ops.update_album_name(new_album_name, songID)
+    if choice == 3:
+        # update artist name
+        new_artist_name = input("Enter the new artist name: ")
+        db_ops.update_artist_name(new_artist_name, songID)
+    if choice == 4:
+        # update release date
+        new_release_date = input("Enter the new release date in yyyy-mm-dd format: ")
+        db_ops.update_release_date(new_release_date, songID)
+    if choice == 5:
+        # update explicit value (can only be yes or no)
+        print('''Select what you would like to change the explict value to:
+        1. True
+        2. False''')
+        explict_value = helper.get_choice([1,2])
+        db_ops.update_explicit_attribute(explict_value, songID)
+
+# NEW
+# function to help delete song from table
+def delete_song():
+    song = input("Enter song name you would like to delete: ")
+    # get songID from song name
+    songID = db_ops.find_songID(song)
+    db_ops.remove_song(songID)
+    
 
 #main program
 startScreen()
 pre_process()
+user_pre_choice = user_pre_process()
+if user_pre_choice == 1:
+    fill_table()
 
 #main program loop
 while True:
@@ -150,6 +228,13 @@ while True:
     if user_choice == 3:
         search_by_feature()
     if user_choice == 4:
+        update_song()
+    if user_choice == 5:
+        song = input("Enter the song name: ")
+        db_ops.song_attributes(song)
+    if user_choice == 6:
+        delete_song()
+    if user_choice == 7:
         print("Goodbye!")
         break
 
