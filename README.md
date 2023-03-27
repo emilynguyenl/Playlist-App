@@ -1,10 +1,10 @@
-##### **Emily Nguyen***
+# **Assignment 4 - Playlist App**
 
-##### **CPSC-408-01**
+## **Emily Nguyen**
 
-##### **Assignment 4 - Playlist App**
+## **CPSC-408-01**
 
-##### **Files**
+### **Files**
 * app.py
 * db_operations.py
 * helper.py
@@ -14,12 +14,12 @@
 * playlist.db
 * README.md
 
-##### **Running Instructions**
+### **Running Instructions**
 * python3 app.py
 
-##### **Bonus Activity**
-###### I chose to do bonus activity 3. It is option 7 in the main menu.
+### **Bonus Activity**
+#### I chose to do bonus activity 3. It is option 7 in the main menu.
 
-##### **References**
+### **References**
 * https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-description.html - helps with printing out attributes with attribute name
 * Professor Cilbourne - playlist application (options 1-3 & 8), helper.py
