@@ -18,7 +18,7 @@
 * python3 app.py
 
 ### **Bonus Activity**
-#### I chose to do bonus activity 3. It is option 7 in the main menu.
+* I chose to do bonus activity 3. It is option 7 in the main menu.
 
 ### **References**
 * https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-description.html - helps with printing out attributes with attribute name
