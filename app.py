@@ -27,7 +27,6 @@ def pre_process():
         query = "INSERT INTO songs VALUES("+placeholders+")"
         db_ops.bulk_insert(query, data)
         
-# NEW
 # ask user if they want to load new songs into the database
 def user_pre_process():
     print('''Would you like to load new songs into the database?
@@ -35,7 +34,6 @@ def user_pre_process():
     2. No''')
     return helper.get_choice([1,2])
         
-# NEW
 # fills table from user's .csv file
 def fill_table():
     # ask user for location of the file
@@ -160,7 +158,6 @@ def search_by_feature():
     results = db_ops.name_placeholder_query(query, dictionary)
     helper.pretty_print(results)
 
-# NEW
 # updates information for a song
 def update_song():
     song = input("Enter song name you would like to update: ")
@@ -202,40 +199,7 @@ def update_song():
         2. False''')
         explict_value = helper.get_choice([1,2])
         db_ops.update_explicit_attribute(explict_value, songID)
-"""
-# NEW
-# function to update records in bulk
-def update_bulk():
-    print('''What would you like to bulk update by?
-    1. Album
-    2. Artist
-    3. Genre''')
-    choice = helper.get_choice([1,2,3])
-    
-    if choice == 1:
-        album = input("Which album would you like to bulk update?")
-    if choice == 2:
-        artist = input("Which artist would you like to bulk update?")
-    if choice == 3:
-        genre = input("Which genre would you like to bulk update?")
-    
-    # ask user which attribute they would like to modify
-    print('''Which information would you like to modify?
-    1. Song name
-    2. Album name
-    3. Artist name
-    4. Release date
-    5. Explicit attribute''')
-    modify = helper.get_choice([1,2,3,4,5])
-    
-    if choice == 1:
-        # bulk update by album
-        if modify == 1:
-            # update song
-            new_song_name = input("Enter the new song name: ")
-            db_ops.bulk_update_song(album, 'Album', new_song_name)
-"""
-# NEW
+
 # function to help delete song from table
 def delete_song():
     song = input("Enter song name you would like to delete: ")
@@ -243,7 +207,6 @@ def delete_song():
     songID = db_ops.find_songID(song)
     db_ops.remove_song(songID)
     
-# NEW
 # function to help delete any records with NULL values for any attributes
 def delete_null():
     query = '''
@@ -280,11 +243,6 @@ while True:
     if user_choice == 3:
         search_by_feature()
     if user_choice == 4:
-        """print("Would you like to bulk update records? Yes (1) or No (2)")
-        bulk = helper.get_choice([1,2])
-        if bulk == 1:
-            update_bulk()
-        if bulk == 2:"""
         update_song()
     if user_choice == 5:
         song = input("Enter the song name: ")

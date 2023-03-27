@@ -49,7 +49,6 @@ class db_operations():
         #results.remove(None)
         return results
     
-    # NEW
     # function to return all attributes given song name
     def song_attributes(self, song_name):
         query = "SELECT * FROM songs WHERE Name = ?"
@@ -63,7 +62,6 @@ class db_operations():
             value = results[attribute]
             print(str(name) + ": " + str(value))
             
-    # NEW
     # function to update song name
     def update_song_name(self, new_song, songID):
         query = '''
@@ -74,7 +72,6 @@ class db_operations():
         self.cursor.execute(query, (new_song, songID))
         print("Song name update completed!")
         
-    # NEW
     # function to update album name
     def update_album_name(self, new_album, songID):
         query = '''
@@ -85,7 +82,6 @@ class db_operations():
         self.cursor.execute(query, (new_album, songID))
         print("Album name update completed!")
         
-    # NEW
     # function to update artist name
     def update_artist_name(self, new_artist, songID):
         query = '''
@@ -96,7 +92,6 @@ class db_operations():
         self.cursor.execute(query, (new_artist, songID))
         print("Artist name update completed!")
         
-    # NEW
     # function to update release date
     def update_release_date(self, new_date, songID):
         query = '''
@@ -107,7 +102,6 @@ class db_operations():
         self.cursor.execute(query, (new_date, songID))
         print("Release date update completed!")
         
-    # NEW
     # function to update explicit attribute
     def update_explicit_attribute(self, value, songID):
         if value == 1:
@@ -125,7 +119,6 @@ class db_operations():
         self.cursor.execute(query, (songID,))
         print("Explicit value update completed!")
     
-    # NEW
     # function to delete a song given the songID
     def remove_song(self, songID):
         query = '''
@@ -135,7 +128,6 @@ class db_operations():
         self.cursor.execute(query, (songID,))
         print("Song deletion completed!")
             
-    # NEW
     # function to return the songID given the song name
     def find_songID(self, song_name):
         query = "SELECT songID FROM songs WHERE Name = ?"
@@ -143,7 +135,6 @@ class db_operations():
         results = self.cursor.fetchone()
         return results[0]
     
-    # NEW
     # function to remove all records that have a NULL attribute
     def delete_null(self, query):
         self.cursor.execute(query)
