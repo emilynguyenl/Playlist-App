@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 class db_operations():
 
@@ -38,7 +39,7 @@ class db_operations():
     # function for bulk inserting records
     def bulk_insert(self,query,records):
         self.cursor.executemany(query,records)
-        self.connection.commit()
+        #self.connection.commit()
         print("query executed..")
 
     # function to return a single attribute values from table
@@ -48,6 +49,18 @@ class db_operations():
         results = [i[0] for i in results]
         #results.remove(None)
         return results
+    
+    def check_song_name(self):
+        choice = input("Enter name of the song: ")
+        self.cursor.execute("SELECT * FROM songs WHERE Name = ?", (choice,))
+        results = self.cursor.fetchall()
+        while len(results) <= 0:
+            # song is not in the table
+            print("Song is not in the table. Try again.")
+            choice = input("Enter name of the song: ")
+            self.cursor.execute("SELECT * FROM songs WHERE Name = ?", (choice,))
+            results = self.cursor.fetchall()
+        return choice
     
     # function to return all attributes given song name
     def song_attributes(self, song_name):
@@ -92,6 +105,18 @@ class db_operations():
         self.cursor.execute(query, (new_artist, songID))
         print("Artist name update completed!")
         
+    # function to check if user entered correct format for releaseDate
+    def check_date_format(self):
+        date = input("Enter a date in yyyy-mm-dd format: ")
+        while True:
+            try:
+                date_obj = datetime.datetime.strptime(date, "%Y-%m-%d")
+                break
+            except ValueError:
+                print("Invalid date. Try again.")
+                date = input("Enter a date in yyyy-mm-dd format: ")
+        return date
+                
     # function to update release date
     def update_release_date(self, new_date, songID):
         query = '''
@@ -107,13 +132,13 @@ class db_operations():
         if value == 1:
             query = '''
             UPDATE songs
-            SET Explicit = True
+            SET Explicit = "True"
             WHERE songID = ?
             '''
         if value == 2:
             query = '''
             UPDATE songs
-            SET Explicit = False
+            SET Explicit = "False"
             WHERE songID = ?
             '''
         self.cursor.execute(query, (songID,))

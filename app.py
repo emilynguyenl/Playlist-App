@@ -64,7 +64,8 @@ def search_by_artist():
     #get list of all artists in table
     query = '''
     SELECT DISTINCT Artist
-    FROM songs;
+    FROM songs
+    WHERE Artist IS NOT NULL;
     '''
     print("Artists in playlist: ")
     artists = db_ops.single_attribute(query)
@@ -77,7 +78,7 @@ def search_by_artist():
     index = helper.get_choice(choices.keys())
 
     #user can ask to see 1, 5, or all songs
-    print("How many songs do you want returned for", choices[index]+"?")
+    print("How many songs do you want returned for" + choices[index] + "?")
     print("Enter 1, 5, or 0 for all songs")
     num = helper.get_choice([1,5,0])
 
@@ -111,7 +112,7 @@ def search_by_genre():
     index = helper.get_choice(choices.keys())
 
     #user can ask to see 1, 5, or all songs
-    print("How many songs do you want returned for", choices[index]+"?")
+    print("How many songs do you want returned for", choices[index] + "?")
     print("Enter 1, 5, or 0 for all songs")
     num = helper.get_choice([1,5,0])
 
@@ -160,7 +161,10 @@ def search_by_feature():
 
 # updates information for a song
 def update_song():
-    song = input("Enter song name you would like to update: ")
+    # ask user for name of the song they would like to update
+    # check if the song exists in the database
+    song = db_ops.check_song_name()
+    
     # print all attributes of that song
     db_ops.song_attributes(song)
     
@@ -190,7 +194,7 @@ def update_song():
         db_ops.update_artist_name(new_artist_name, songID)
     if choice == 4:
         # update release date
-        new_release_date = input("Enter the new release date in yyyy-mm-dd format: ")
+        new_release_date = db_ops.check_date_format()
         db_ops.update_release_date(new_release_date, songID)
     if choice == 5:
         # update explicit value (can only be yes or no)
@@ -202,9 +206,14 @@ def update_song():
 
 # function to help delete song from table
 def delete_song():
-    song = input("Enter song name you would like to delete: ")
+    # ask user for name of the song they would like to delete
+    # check if the song exists in the database
+    song = db_ops.check_song_name()
+    
     # get songID from song name
     songID = db_ops.find_songID(song)
+    
+    # remove the song from the table
     db_ops.remove_song(songID)
     
 # function to help delete any records with NULL values for any attributes
@@ -231,7 +240,7 @@ startScreen()
 pre_process()
 user_pre_choice = user_pre_process()
 if user_pre_choice == 1:
-    fill_table()
+   fill_table()
 
 #main program loop
 while True:
@@ -245,7 +254,7 @@ while True:
     if user_choice == 4:
         update_song()
     if user_choice == 5:
-        song = input("Enter the song name: ")
+        song = db_ops.check_song_name()
         db_ops.song_attributes(song)
     if user_choice == 6:
         delete_song()
