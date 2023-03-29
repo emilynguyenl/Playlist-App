@@ -29,6 +29,7 @@ class db_operations():
         );
         '''
         self.cursor.execute(query)
+        self.connection.commit()
         print('Table Created')
 
     # function to return a single value from table
@@ -39,7 +40,7 @@ class db_operations():
     # function for bulk inserting records
     def bulk_insert(self,query,records):
         self.cursor.executemany(query,records)
-        #self.connection.commit()
+        self.connection.commit()
         print("query executed..")
 
     # function to return a single attribute values from table
@@ -50,6 +51,8 @@ class db_operations():
         #results.remove(None)
         return results
     
+    # function to check if a song is in the table 
+    # returns the name of the song that is in the table
     def check_song_name(self):
         choice = input("Enter name of the song: ")
         self.cursor.execute("SELECT * FROM songs WHERE Name = ?", (choice,))
@@ -83,6 +86,7 @@ class db_operations():
         WHERE songID = ?
         '''
         self.cursor.execute(query, (new_song, songID))
+        self.connection.commit()
         print("Song name update completed!")
         
     # function to update album name
@@ -93,6 +97,7 @@ class db_operations():
         WHERE songID = ?
         '''
         self.cursor.execute(query, (new_album, songID))
+        self.connection.commit()
         print("Album name update completed!")
         
     # function to update artist name
@@ -103,6 +108,7 @@ class db_operations():
         WHERE songID = ?
         '''
         self.cursor.execute(query, (new_artist, songID))
+        self.connection.commit()
         print("Artist name update completed!")
         
     # function to check if user entered correct format for releaseDate
@@ -125,6 +131,7 @@ class db_operations():
         WHERE songID = ?
         '''
         self.cursor.execute(query, (new_date, songID))
+        self.connection.commit()
         print("Release date update completed!")
         
     # function to update explicit attribute
@@ -142,6 +149,7 @@ class db_operations():
             WHERE songID = ?
             '''
         self.cursor.execute(query, (songID,))
+        self.connection.commit()
         print("Explicit value update completed!")
     
     # function to delete a song given the songID
@@ -151,6 +159,7 @@ class db_operations():
         WHERE songID = ?
         '''
         self.cursor.execute(query, (songID,))
+        self.connection.commit()
         print("Song deletion completed!")
             
     # function to return the songID given the song name
@@ -163,6 +172,7 @@ class db_operations():
     # function to remove all records that have a NULL attribute
     def delete_null(self, query):
         self.cursor.execute(query)
+        self.connection.commit()
         print("Deletion of null records completed!")
 
     # SELECT with named placeholders
