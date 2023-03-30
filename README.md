@@ -21,5 +21,6 @@
 * I chose to do bonus activity 3. It is option 7 in the main menu.
 
 ### **References**
-* https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-description.html - helps with printing out attributes with attribute name
+* https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-description.html - helped with printing out attributes with attribute name
+* https://www.geeksforgeeks.org/python-validate-string-date-format/ - helped with checking correct date format
 * Professor Cilbourne - playlist application (options 1-3 & 8), helper.py
