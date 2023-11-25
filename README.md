@@ -1,8 +1,13 @@
-# **Assignment 4 - Playlist App**
+# **Playlist App**
 
 ## **Emily Nguyen**
 
-## **CPSC-408-01**
+### **Description**
+This program simulates a playlist application that allows users to
+find songs by artist, genre, or feature. Users will also be able to 
+update songs by name and list all attributes of a song by song name.
+Options to remove a song and remove records with null values is also
+available.
 
 ### **Files**
 * app.py
@@ -10,15 +15,11 @@
 * helper.py
 * table_create.sql
 * songs.csv
-* Assignment04_songs_update.csv
 * playlist.db
 * README.md
 
 ### **Running Instructions**
 * python3 app.py
-
-### **Bonus Activity**
-* I chose to do bonus activity 3. It is option 7 in the main menu.
 
 ### **References**
 * https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-description.html - helped with printing out attributes with attribute name
